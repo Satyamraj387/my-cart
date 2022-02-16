@@ -1,5 +1,6 @@
 import React from "react";
 
+import { FaTrashAlt } from "react-icons/fa";
 const CartItem = (props)=> {
     
     // //here arrow fn is compulsory reason you know
@@ -31,11 +32,11 @@ const CartItem = (props)=> {
     //     });
     // }
 
-        const { price, title, qty } = props.product;
+        const { price, title, qty, img } = props.product;
         return (
             <div className="cart-item">
                 <div className="left-block">
-                    <img style={styles.image} alt="" />
+                    <img style={styles.image} alt="pic" src={img} />
                 </div>
                 <div className="right-block">
                     <div style= {{ fontSize: 25}}>{title}</div>
@@ -50,9 +51,15 @@ const CartItem = (props)=> {
                         onClick={()=>props.decrease(props.product)} 
                         src="https://cdn-icons-png.flaticon.com/128/66/66889.png"
                         />
-                        <img alt="delete" className="action-icons"
+                        {/* <img alt="delete" className="action-icons"
                         onClick={()=>props.delete(props.product.id)} 
-                        src="https://cdn-icons.flaticon.com/png/512/3405/premium/3405244.png?token=exp=1644840450~hmac=2fb9ea54d69c3662b06ac9570b346a52" />
+                        src="https://cdn-icons.flaticon.com/png/512/3405/premium/3405244.png?token=exp=1644840450~hmac=2fb9ea54d69c3662b06ac9570b346a52" /> */}
+                        <button
+                        className="action-icons"
+                        onClick={()=>props.delete(props.product.id)} 
+                        > <FaTrashAlt/>
+                        
+                        </button>
                     </div>
                 </div>
             </div> 

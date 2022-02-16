@@ -1,54 +1,81 @@
 import React from "react";
 import Cart from "./Cart";
 import Navbar from "./Navbar";
-
+import {db} from './firebase';
 class App extends React.Component {
 
   constructor(){
     super();
     this.state = {
-       products: [
-           {
-        price: 999,
-        title: 'phone1',
-        qty: 1,
-        img: '',
-        id:1
-       },
-       {
-        price: 999,
-        title: 'phone2',
-        qty: 1,
-        img: '',
-        id: 2
-       },
-       {
-        price: 999,
-        title: 'phone3',
-        qty: 1,
-        img: '',
-        id: 3
-       }
-    ]
+       products: [],
+       loading: true
     }
+}
+
+componentDidMount(){
+   db
+    .collection('products')
+//   .get()
+//   .then((snapshot)=>{
+//       console.log(snapshot);
+
+//       snapshot.docs.map((doc)=>{
+//         return doc.data;
+//     });
+//     const products = snapshot.docs.map((doc)=>{
+//       const data = doc.data();
+//       data['id'] = doc.id;
+//       return data;
+//     });
+//     this.setState({
+//       products: products,
+//       loading: false
+//     })
+//   })
+// }
+// handleIncreaseQuantity = (product)=>{
+//     const {products} = this.state;
+//     const index = products.indexOf(product);
+//     products[index].qty +=1;
+//     this.setState({
+//         products: products
+//     })
+// }
+// handleDecreaseQuantity = (product)=>{
+//     const {products} = this.state;
+//     const index = products.indexOf(product);
+//     if(products[index].qty>=1){
+//         products[index].qty -=1;
+//     }
+//     this.setState({
+//         products: products
+//     })
+
+//onsnapshot is called every time something changes in database
+.onSnapshot((snapshot)=>{
+  console.log(snapshot);
+
+  snapshot.docs.map((doc)=>{
+    return doc.data;
+});
+const products = snapshot.docs.map((doc)=>{
+  const data = doc.data();
+  data['id'] = doc.id;
+  return data;
+});
+this.setState({
+  products: products,
+  loading: false
+})
+})
 }
 handleIncreaseQuantity = (product)=>{
-    const {products} = this.state;
-    const index = products.indexOf(product);
-    products[index].qty +=1;
-    this.setState({
-        products: products
-    })
-}
-handleDecreaseQuantity = (product)=>{
-    const {products} = this.state;
-    const index = products.indexOf(product);
-    if(products[index].qty>=1){
-        products[index].qty -=1;
-    }
-    this.setState({
-        products: products
-    })
+const {products} = this.state;
+const index = products.indexOf(product);
+products[index].qty +=1;
+this.setState({
+    products: products
+})
 }
 handleDeleteProduct = (id)=>{
     const {products} = this.state;
@@ -75,11 +102,10 @@ getTotal = ()=>{
 }
 
   render(){
-    const { products } = this.state;
+    const { products, loading } = this.state;
     
   return (
     <div className="App">
-     <h1> Satyam's Shopping cart</h1>
      <Navbar
      count={this.getCartCount()} 
      />
@@ -89,6 +115,7 @@ getTotal = ()=>{
      decrease = {this.handleDecreaseQuantity} 
      delete = {this.handleDeleteProduct}
      />
+     {loading && <h1> Loading products</h1>}
      <div>Total: {this.getTotal()}</div>
     </div>
   );
