@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# Read_me will be defined soon
+# this is default by create react app
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
